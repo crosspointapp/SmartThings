@@ -18,7 +18,7 @@ include "asynchttp_v1"
 
 definition(
 	name: "CrossPoint",
-	namespace: "CrossPoint",
+	namespace: "SmartThings Groovy",
 	author: "CrossPoint",
 	description: "CrossPoint is a new IoT service that allows users to detect complex changes in their IoT devices and to send commands and notifications as a result.",
 	category: "Convenience",
