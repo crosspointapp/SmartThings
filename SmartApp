@@ -1,8 +1,8 @@
 /**
- *	Rule IoT
+ *	CrossPoint
  *
  *	Copyright 2018 RuleIoT
- *	https://ruleiot.com
+ *	https://crosspointapp.com
  *
  *	Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *	in compliance with the License. You may obtain a copy of the License at:
@@ -17,18 +17,18 @@
 include "asynchttp_v1"
 
 definition(
-	name: "Rule IoT",
-	namespace: "riot",
-	author: "RuleIoT",
-	description: "Rule IoT is a new IoT service that allows users to detect complex changes in their IoT devices and to send commands and notifications as a result.",
+	name: "CrossPoint",
+	namespace: "CrossPoint",
+	author: "CrossPoint",
+	description: "CrossPoint is a new IoT service that allows users to detect complex changes in their IoT devices and to send commands and notifications as a result.",
 	category: "Convenience",
-	iconUrl: "https://ruleiot.com/logo.svg",
-	iconX2Url: "https://ruleiot.com/logo.svg",
-	iconX3Url: "https://ruleiot.com/logo.svg")
+	iconUrl: "https://crosspointapp.com/logo.svg",
+	iconX2Url: "https://crosspointapp.com/logo.svg",
+	iconX3Url: "https://crosspointapp.com/logo.svg")
 
 
 preferences {
-	section("Select Devices for use by RuleIoT") {
+	section("Select Devices for use by CrossPoint") {
 		// this set was found by testing devices we have
 		input("videoCameras", "capability.videoCamera", required: false, multiple: true, title: "Video Cameras")
 		input("videoCaptures", "capability.videoCapture", required: false, multiple: true, title: "Video Capture Devices")
@@ -164,7 +164,7 @@ mappings {
 // "Due to the sandboxed nature of SmartApp and Device Handler execution, defining global constant variables will not work"
 // "Instead, for any global constants you’d like in your SmartApp or Device Handler, define a no-op getter method that returns the value"
 def getRulesEndpointURL() {
-	return "https://prod-api.ruleiot.com"
+	return "https://dev-api.ruleiot.com"
 }
 
 def installed() {
