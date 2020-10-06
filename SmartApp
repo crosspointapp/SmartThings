@@ -1,0 +1,697 @@
+/**
+ *	Rule IoT
+ *
+ *	Copyright 2018 RuleIoT
+ *	https://ruleiot.com
+ *
+ *	Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ *	in compliance with the License. You may obtain a copy of the License at:
+ *
+ *		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *	Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
+ *	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
+ *	for the specific language governing permissions and limitations under the License.
+ *
+ */
+include "asynchttp_v1"
+
+definition(
+	name: "Rule IoT",
+	namespace: "riot",
+	author: "RuleIoT",
+	description: "Rule IoT is a new IoT service that allows users to detect complex changes in their IoT devices and to send commands and notifications as a result.",
+	category: "Convenience",
+	iconUrl: "https://ruleiot.com/logo.svg",
+	iconX2Url: "https://ruleiot.com/logo.svg",
+	iconX3Url: "https://ruleiot.com/logo.svg")
+
+
+preferences {
+	section("Select Devices for use by RuleIoT") {
+		// this set was found by testing devices we have
+		input("videoCameras", "capability.videoCamera", required: false, multiple: true, title: "Video Cameras")
+		input("videoCaptures", "capability.videoCapture", required: false, multiple: true, title: "Video Capture Devices")
+
+		// this list was generated from scraping smartthings capabilities webpage
+		input("accelerationSensors", "capability.accelerationSensor", required: false, multiple: true, title: "Acceleration Sensors")
+		input("actuators", "capability.actuator", required: false, multiple: true, title: "Actuators")
+		input("airConditionerModes", "capability.airConditionerMode", required: false, multiple: true, title: "Air Conditioner Modes")
+		input("airQualitySensors", "capability.airQualitySensor", required: false, multiple: true, title: "Air Quality Sensors")
+		input("alarms", "capability.alarm", required: false, multiple: true, title: "Alarms")
+		input("audioMutes", "capability.audioMute", required: false, multiple: true, title: "Audio Mutes")
+		input("audioNotifications", "capability.audioNotification", required: false, multiple: true, title: "Audio Notifications")
+		input("audioTrackDatas", "capability.audioTrackData", required: false, multiple: true, title: "Audio Track Datas")
+		input("audioVolumes", "capability.audioVolume", required: false, multiple: true, title: "Audio Volumes")
+		input("batterys", "capability.battery", required: false, multiple: true, title: "Batterys")
+		input("beacons", "capability.beacon", required: false, multiple: true, title: "Beacons")
+		input("bridges", "capability.bridge", required: false, multiple: true, title: "Bridges")
+		input("bulbs", "capability.bulb", required: false, multiple: true, title: "Bulbs")
+		input("simplebuttons", "capability.button", required: false, multiple: true, title: "Buttons")
+		input("carbonDioxideMeasurements", "capability.carbonDioxideMeasurement", required: false, multiple: true, title: "Carbon Dioxide Measurements")
+		input("carbonMonoxideDetectors", "capability.carbonMonoxideDetector", required: false, multiple: true, title: "Carbon Monoxide Detectors")
+		input("colorControls", "capability.colorControl", required: false, multiple: true, title: "Color Controls")
+		input("colorTemperatures", "capability.colorTemperature", required: false, multiple: true, title: "Color Temperatures")
+		input("configurations", "capability.configuration", required: false, multiple: true, title: "Configurations")
+		input("consumables", "capability.consumable", required: false, multiple: true, title: "Consumables")
+		input("contactSensors", "capability.contactSensor", required: false, multiple: true, title: "Contact Sensors")
+		input("dishwasherModes", "capability.dishwasherMode", required: false, multiple: true, title: "Dishwasher Modes")
+		input("dishwasherOperatingStates", "capability.dishwasherOperatingState", required: false, multiple: true, title: "Dishwasher Operating States")
+		input("doorControls", "capability.doorControl", required: false, multiple: true, title: "Door Controls")
+		input("dryerModes", "capability.dryerMode", required: false, multiple: true, title: "Dryer Modes")
+		input("dryerOperatingStates", "capability.dryerOperatingState", required: false, multiple: true, title: "Dryer Operating States")
+		input("dustSensors", "capability.dustSensor", required: false, multiple: true, title: "Dust Sensors")
+		input("energyMeters", "capability.energyMeter", required: false, multiple: true, title: "Energy Meters")
+		input("estimatedTimeOfArrivals", "capability.estimatedTimeOfArrival", required: false, multiple: true, title: "Estimated Time Of Arrivals")
+		input("executes", "capability.execute", required: false, multiple: true, title: "Executes")
+		input("fanSpeeds", "capability.fanSpeed", required: false, multiple: true, title: "Fan Speeds")
+		input("filterStatuss", "capability.filterStatus", required: false, multiple: true, title: "Filter Statuss")
+		input("garageDoorControls", "capability.garageDoorControl", required: false, multiple: true, title: "Garage Door Controls")
+		input("geolocations", "capability.geolocation", required: false, multiple: true, title: "Geolocations")
+		input("holdableButtons", "capability.holdableButton", required: false, multiple: true, title: "Holdable Buttons")
+		input("illuminanceMeasurements", "capability.illuminanceMeasurement", required: false, multiple: true, title: "Illuminance Measurements")
+		input("imageCaptures", "capability.imageCapture", required: false, multiple: true, title: "Image Captures")
+		input("indicators", "capability.indicator", required: false, multiple: true, title: "Indicators")
+		input("infraredLevels", "capability.infraredLevel", required: false, multiple: true, title: "Infrared Levels")
+		input("lights", "capability.light", required: false, multiple: true, title: "Lights")
+		input("lockOnlys", "capability.lockOnly", required: false, multiple: true, title: "Lock Onlys")
+		input("locks", "capability.lock", required: false, multiple: true, title: "Locks")
+		input("mediaControllers", "capability.mediaController", required: false, multiple: true, title: "Media Controllers")
+		input("mediaInputSources", "capability.mediaInputSource", required: false, multiple: true, title: "Media Input Sources")
+		input("mediaPlaybackRepeats", "capability.mediaPlaybackRepeat", required: false, multiple: true, title: "Media Playback Repeats")
+		input("mediaPlaybackShuffles", "capability.mediaPlaybackShuffle", required: false, multiple: true, title: "Media Playback Shuffles")
+		input("mediaPlaybacks", "capability.mediaPlayback", required: false, multiple: true, title: "Media Playbacks")
+		input("mediaTrackControls", "capability.mediaTrackControl", required: false, multiple: true, title: "Media Track Controls")
+		input("momentarys", "capability.momentary", required: false, multiple: true, title: "Momentarys")
+		input("motionSensors", "capability.motionSensor", required: false, multiple: true, title: "Motion Sensors")
+		input("musicPlayers", "capability.musicPlayer", required: false, multiple: true, title: "Music Players")
+		input("notifications", "capability.notification", required: false, multiple: true, title: "Notifications")
+		input("odorSensors", "capability.odorSensor", required: false, multiple: true, title: "Odor Sensors")
+		input("outlets", "capability.outlet", required: false, multiple: true, title: "Outlets")
+		input("ovenModes", "capability.ovenMode", required: false, multiple: true, title: "Oven Modes")
+		input("ovenOperatingStates", "capability.ovenOperatingState", required: false, multiple: true, title: "Oven Operating States")
+		input("ovenSetpoints", "capability.ovenSetpoint", required: false, multiple: true, title: "Oven Setpoints")
+		input("pHMeasurements", "capability.pHMeasurement", required: false, multiple: true, title: "pH Measurements")
+		input("pollings", "capability.polling", required: false, multiple: true, title: "Pollings")
+		input("powerMeters", "capability.powerMeter", required: false, multiple: true, title: "Power Meters")
+		input("powerSources", "capability.powerSource", required: false, multiple: true, title: "Power Sources")
+		input("presenceSensors", "capability.presenceSensor", required: false, multiple: true, title: "Presence Sensors")
+		input("rapidCoolings", "capability.rapidCooling", required: false, multiple: true, title: "Rapid Coolings")
+		input("refreshs", "capability.refresh", required: false, multiple: true, title: "Refreshs")
+		input("refrigerationSetpoints", "capability.refrigerationSetpoint", required: false, multiple: true, title: "Refrigeration Setpoints")
+		input("relativeHumidityMeasurements", "capability.relativeHumidityMeasurement", required: false, multiple: true, title: "Relative Humidity Measurements")
+		input("relaySwitchs", "capability.relaySwitch", required: false, multiple: true, title: "Relay Switchs")
+		input("robotCleanerCleaningModes", "capability.robotCleanerCleaningMode", required: false, multiple: true, title: "Robot Cleaner Cleaning Modes")
+		input("robotCleanerMovements", "capability.robotCleanerMovement", required: false, multiple: true, title: "Robot Cleaner Movements")
+		input("robotCleanerTurboModes", "capability.robotCleanerTurboMode", required: false, multiple: true, title: "Robot Cleaner Turbo Modes")
+		input("sensors", "capability.sensor", required: false, multiple: true, title: "Sensors")
+		input("shockSensors", "capability.shockSensor", required: false, multiple: true, title: "Shock Sensors")
+		input("signalStrengths", "capability.signalStrength", required: false, multiple: true, title: "Signal Strengths")
+		input("sleepSensors", "capability.sleepSensor", required: false, multiple: true, title: "Sleep Sensors")
+		input("smokeDetectors", "capability.smokeDetector", required: false, multiple: true, title: "Smoke Detectors")
+		input("soundPressureLevels", "capability.soundPressureLevel", required: false, multiple: true, title: "Sound Pressure Levels")
+		input("soundSensors", "capability.soundSensor", required: false, multiple: true, title: "Sound Sensors")
+		input("speechRecognitions", "capability.speechRecognition", required: false, multiple: true, title: "Speech Recognitions")
+		input("speechSynthesiss", "capability.speechSynthesis", required: false, multiple: true, title: "Speech Synthesiss")
+		input("stepSensors", "capability.stepSensor", required: false, multiple: true, title: "Step Sensors")
+		input("switchLevels", "capability.switchLevel", required: false, multiple: true, title: "Switch Levels")
+		input("switchs", "capability.switch", required: false, multiple: true, title: "Switchs")
+		input("tamperAlerts", "capability.tamperAlert", required: false, multiple: true, title: "Tamper Alerts")
+		input("temperatureMeasurements", "capability.temperatureMeasurement", required: false, multiple: true, title: "Temperature Measurements")
+		input("thermostatCoolingSetpoints", "capability.thermostatCoolingSetpoint", required: false, multiple: true, title: "Thermostat Cooling Setpoints")
+		input("thermostatFanModes", "capability.thermostatFanMode", required: false, multiple: true, title: "Thermostat Fan Modes")
+		input("thermostatHeatingSetpoints", "capability.thermostatHeatingSetpoint", required: false, multiple: true, title: "Thermostat Heating Setpoints")
+		input("thermostatModes", "capability.thermostatMode", required: false, multiple: true, title: "Thermostat Modes")
+		input("thermostatOperatingStates", "capability.thermostatOperatingState", required: false, multiple: true, title: "Thermostat Operating States")
+		input("thermostatSetpoints", "capability.thermostatSetpoint", required: false, multiple: true, title: "Thermostat Setpoints")
+		input("thermostats", "capability.thermostat", required: false, multiple: true, title: "Thermostats")
+		input("threeAxiss", "capability.threeAxis", required: false, multiple: true, title: "Three Axiss")
+		input("timedSessions", "capability.timedSession", required: false, multiple: true, title: "Timed Sessions")
+		input("tones", "capability.tone", required: false, multiple: true, title: "Tones")
+		input("touchSensors", "capability.touchSensor", required: false, multiple: true, title: "Touch Sensors")
+		input("tVChannels", "capability.tVChannel", required: false, multiple: true, title: "TV Channels")
+		input("ultravioletIndexs", "capability.ultravioletIndex", required: false, multiple: true, title: "Ultraviolet Indexs")
+		input("valves", "capability.valve", required: false, multiple: true, title: "Valves")
+		input("videoStreams", "capability.videoStream", required: false, multiple: true, title: "Video Streams")
+		input("voltageMeasurements", "capability.voltageMeasurement", required: false, multiple: true, title: "Voltage Measurements")
+		input("washerModes", "capability.washerMode", required: false, multiple: true, title: "Washer Modes")
+		input("washerOperatingStates", "capability.washerOperatingState", required: false, multiple: true, title: "Washer Operating States")
+		input("waterSensors", "capability.waterSensor", required: false, multiple: true, title: "Water Sensors")
+		input("windowShades", "capability.windowShade", required: false, multiple: true, title: "Window Shades")
+	}
+}
+
+mappings {
+	path("/summary") {
+		action: [
+			GET: "getSummary"
+		]
+	}
+	path("/devices") {
+		action: [
+			GET: "getDevices"
+		]
+	}
+	path("/devices/:id") {
+		action: [
+			GET: "getDevice",
+			POST: "commandDevice"
+		]
+	}
+}
+
+// According to SmartApp Groovy Documentation
+// "Due to the sandboxed nature of SmartApp and Device Handler execution, defining global constant variables will not work"
+// "Instead, for any global constants you’d like in your SmartApp or Device Handler, define a no-op getter method that returns the value"
+def getRulesEndpointURL() {
+	return "https://prod-api.ruleiot.com"
+}
+
+def installed() {
+	initialize()
+}
+
+def updated() {
+	unsubscribe()
+	initialize()
+}
+
+def initialize() {
+	// this list was generated from scraping smartthings capabilities webpage
+	subscribe(videoCameras, "videoCameras", handleEvent)
+	subscribe(videoCaptures, "videoCaptures", handleEvent)
+
+	// this list was generated from scraping smartthings capabilities webpage
+	subscribe(accelerationSensors, "acceleration", handleEvent)
+	subscribe(airConditionerModes, "airConditionerMode", handleEvent)
+	subscribe(airQualitySensors, "airQuality", handleEvent)
+	subscribe(alarms, "alarm", handleEvent)
+	subscribe(audioMutes, "mute", handleEvent)
+	subscribe(audioTrackDatas, "audioTrackData", handleEvent)
+	subscribe(audioVolumes, "volume", handleEvent)
+	subscribe(batterys, "battery", handleEvent)
+	subscribe(beacons, "presence", handleEvent)
+	subscribe(bulbs, "switch", handleEvent)
+	subscribe(simplebuttons, "button", handleEvent)
+	subscribe(simplebuttons, "numberOfButtons", handleEvent)
+	subscribe(carbonDioxideMeasurements, "carbonDioxide", handleEvent)
+	subscribe(carbonMonoxideDetectors, "carbonMonoxide", handleEvent)
+	subscribe(colorControls, "color", handleEvent)
+	subscribe(colorControls, "hue", handleEvent)
+	subscribe(colorControls, "saturation", handleEvent)
+	subscribe(colorTemperatures, "colorTemperature", handleEvent)
+	subscribe(consumables, "consumableStatus", handleEvent)
+	subscribe(contactSensors, "contact", handleEvent)
+	subscribe(dishwasherModes, "dishwasherMode", handleEvent)
+	subscribe(dishwasherOperatingStates, "machineState", handleEvent)
+	subscribe(dishwasherOperatingStates, "supportedMachineStates", handleEvent)
+	subscribe(dishwasherOperatingStates, "dishwasherJobState", handleEvent)
+	subscribe(dishwasherOperatingStates, "remainingTime", handleEvent)
+	subscribe(doorControls, "door", handleEvent)
+	subscribe(dryerModes, "dryerMode", handleEvent)
+	subscribe(dryerOperatingStates, "machineState", handleEvent)
+	subscribe(dryerOperatingStates, "supportedMachineStates", handleEvent)
+	subscribe(dryerOperatingStates, "dryerJobState", handleEvent)
+	subscribe(dryerOperatingStates, "remainingTime", handleEvent)
+	subscribe(dustSensors, "fineDustLevel", handleEvent)
+	subscribe(dustSensors, "dustLevel", handleEvent)
+	subscribe(energyMeters, "energy", handleEvent)
+	subscribe(estimatedTimeOfArrivals, "eta", handleEvent)
+	subscribe(executes, "data", handleEvent)
+	subscribe(fanSpeeds, "fanSpeed", handleEvent)
+	subscribe(filterStatuss, "filterStatus", handleEvent)
+	subscribe(garageDoorControls, "door", handleEvent)
+	subscribe(geolocations, "latitude", handleEvent)
+	subscribe(geolocations, "longitude", handleEvent)
+	subscribe(geolocations, "method", handleEvent)
+	subscribe(geolocations, "accuracy", handleEvent)
+	subscribe(geolocations, "altitudeAccuracy", handleEvent)
+	subscribe(geolocations, "heading", handleEvent)
+	subscribe(geolocations, "speed", handleEvent)
+	subscribe(geolocations, "lastUpdateTime", handleEvent)
+	subscribe(holdableButtons, "button", handleEvent)
+	subscribe(holdableButtons, "numberOfButtons", handleEvent)
+	subscribe(illuminanceMeasurements, "illuminance", handleEvent)
+	subscribe(imageCaptures, "image", handleEvent)
+	subscribe(indicators, "indicatorStatus", handleEvent)
+	subscribe(infraredLevels, "infraredLevel", handleEvent)
+	subscribe(lights, "switch", handleEvent)
+	subscribe(lockOnlys, "lock", handleEvent)
+	subscribe(locks, "lock", handleEvent)
+	subscribe(mediaControllers, "activities", handleEvent)
+	subscribe(mediaControllers, "currentActivity", handleEvent)
+	subscribe(mediaInputSources, "inputSource", handleEvent)
+	subscribe(mediaInputSources, "supportedInputSources", handleEvent)
+	subscribe(mediaPlaybackRepeats, "playbackRepeatMode", handleEvent)
+	subscribe(mediaPlaybackShuffles, "playbackShuffle", handleEvent)
+	subscribe(mediaPlaybacks, "level", handleEvent)
+	subscribe(mediaPlaybacks, "playbackStatus", handleEvent)
+	subscribe(motionSensors, "motion", handleEvent)
+	subscribe(musicPlayers, "level", handleEvent)
+	subscribe(musicPlayers, "mute", handleEvent)
+	subscribe(musicPlayers, "status", handleEvent)
+	subscribe(musicPlayers, "trackData", handleEvent)
+	subscribe(musicPlayers, "trackDescription", handleEvent)
+	subscribe(odorSensors, "odorLevel", handleEvent)
+	subscribe(outlets, "switch", handleEvent)
+	subscribe(ovenModes, "ovenMode", handleEvent)
+	subscribe(ovenOperatingStates, "machineState", handleEvent)
+	subscribe(ovenOperatingStates, "supportedMachineStates", handleEvent)
+	subscribe(ovenOperatingStates, "ovenJobState", handleEvent)
+	subscribe(ovenOperatingStates, "remainingTime", handleEvent)
+	subscribe(ovenOperatingStates, "operationTime", handleEvent)
+	subscribe(ovenSetpoints, "ovenSetpoint", handleEvent)
+	subscribe(pHMeasurements, "pH", handleEvent)
+	subscribe(powerMeters, "power", handleEvent)
+	subscribe(powerSources, "powerSource", handleEvent)
+	subscribe(presenceSensors, "presence", handleEvent)
+	subscribe(rapidCoolings, "rapidCooling", handleEvent)
+	subscribe(refrigerationSetpoints, "refrigerationSetpoint", handleEvent)
+	subscribe(relativeHumidityMeasurements, "humidity", handleEvent)
+	subscribe(relaySwitchs, "switch", handleEvent)
+	subscribe(robotCleanerCleaningModes, "robotCleanerCleaningMode", handleEvent)
+	subscribe(robotCleanerMovements, "robotCleanerMovement", handleEvent)
+	subscribe(robotCleanerTurboModes, "robotCleanerTurboMode", handleEvent)
+	subscribe(shockSensors, "shock", handleEvent)
+	subscribe(signalStrengths, "lqi", handleEvent)
+	subscribe(signalStrengths, "rssi", handleEvent)
+	subscribe(sleepSensors, "sleeping", handleEvent)
+	subscribe(smokeDetectors, "smoke", handleEvent)
+	subscribe(soundPressureLevels, "soundPressureLevel", handleEvent)
+	subscribe(soundSensors, "sound", handleEvent)
+	subscribe(speechRecognitions, "phraseSpoken", handleEvent)
+	subscribe(stepSensors, "goal", handleEvent)
+	subscribe(stepSensors, "steps", handleEvent)
+	subscribe(switchLevels, "level", handleEvent)
+	subscribe(switchs, "switch", handleEvent)
+	subscribe(tamperAlerts, "tamper", handleEvent)
+	subscribe(temperatureMeasurements, "temperature", handleEvent)
+	subscribe(thermostatCoolingSetpoints, "coolingSetpoint", handleEvent)
+	subscribe(thermostatCoolingSetpoints, "coolingSetpointRange", handleEvent)
+	subscribe(thermostatFanModes, "thermostatFanMode", handleEvent)
+	subscribe(thermostatFanModes, "supportedThermostatFanModes", handleEvent)
+	subscribe(thermostatHeatingSetpoints, "heatingSetpoint", handleEvent)
+	subscribe(thermostatHeatingSetpoints, "heatingSetpointRange", handleEvent)
+	subscribe(thermostatModes, "thermostatMode", handleEvent)
+	subscribe(thermostatModes, "supportedThermostatModes", handleEvent)
+	subscribe(thermostatOperatingStates, "thermostatOperatingState", handleEvent)
+	subscribe(thermostatSetpoints, "thermostatSetpoint", handleEvent)
+	subscribe(thermostatSetpoints, "thermostatSetpointRange", handleEvent)
+	subscribe(thermostats, "coolingSetpoint", handleEvent)
+	subscribe(thermostats, "coolingSetpointRange", handleEvent)
+	subscribe(thermostats, "heatingSetpoint", handleEvent)
+	subscribe(thermostats, "heatingSetpointRange", handleEvent)
+	subscribe(thermostats, "schedule", handleEvent)
+	subscribe(thermostats, "temperature", handleEvent)
+	subscribe(thermostats, "thermostatFanMode", handleEvent)
+	subscribe(thermostats, "supportedThermostatFanModes", handleEvent)
+	subscribe(thermostats, "thermostatMode", handleEvent)
+	subscribe(thermostats, "supportedThermostatModes", handleEvent)
+	subscribe(thermostats, "thermostatOperatingState", handleEvent)
+	subscribe(thermostats, "thermostatSetpoint", handleEvent)
+	subscribe(thermostats, "thermostatSetpointRange", handleEvent)
+	subscribe(threeAxiss, "threeAxis", handleEvent)
+	subscribe(timedSessions, "sessionStatus", handleEvent)
+	subscribe(timedSessions, "timeRemaining", handleEvent)
+	subscribe(touchSensors, "touch", handleEvent)
+	subscribe(tVChannels, "tvChannel", handleEvent)
+	subscribe(ultravioletIndexs, "ultravioletIndex", handleEvent)
+	subscribe(valves, "contact", handleEvent)
+	subscribe(valves, "valve", handleEvent)
+	subscribe(videoStreams, "stream", handleEvent)
+	subscribe(voltageMeasurements, "voltage", handleEvent)
+	subscribe(washerModes, "ovenMode", handleEvent)
+	subscribe(washerOperatingStates, "machineState", handleEvent)
+	subscribe(washerOperatingStates, "supportedMachineStates", handleEvent)
+	subscribe(washerOperatingStates, "washerJobState", handleEvent)
+	subscribe(washerOperatingStates, "remainingTime", handleEvent)
+	subscribe(waterSensors, "water", handleEvent)
+	subscribe(windowShades, "windowShade", handleEvent)
+
+	asynchttp_v1.post(onEventResponse, [
+		uri: getRulesEndpointURL(),
+		path: "/v1/platforms/smartthings/devices.json",
+        tlsVersion: "TLSv1.1",
+		body: [
+			appId: app.id,
+            temperatureScale: app.getLocation().temperatureScale,
+			devices: getDevices()
+		]
+	])
+	runEvery1Minute(sendDeviceStatuses)
+}
+
+// Event Subscription
+def handleEvent(e) {
+	if (e.name && e.value) {
+		log.debug "Received event: ${e}"
+		asynchttp_v1.post(onEventResponse, [
+			uri: getRulesEndpointURL(),
+			path: "/v1/platforms/smartthings/events/${e.deviceId}.json",
+        	tlsVersion: "TLSv1.1",
+			body: [
+				name: e.name,
+				value: e.value,
+				date: e.date,
+				locationId: e.locationId,
+                temperatureScale: e.location.temperatureScale,
+				appId: app.id,
+				capabilities: createCapabilityList(e.getDevice())
+			]
+		])
+	}
+}
+
+def onEventResponse(response, data) {
+}
+
+// Sends a map of all devices with their current status
+// Example of request body:
+// {
+//     "appId": "...",
+//     "devices": {
+//         "device-01": "active",
+//		   "device-02": "offline",
+//         ...
+//     }
+// }
+def sendDeviceStatuses() {
+	def devices = [:]
+
+	getDevices().each{device ->
+		devices[device.id] = [
+        	name: device.name,
+            displayName: device.displayName,
+            status: device.status
+        ]
+	}
+	asynchttp_v1.post(onDeviceStatusesSent, [
+		uri: getRulesEndpointURL(),
+		path: "/v1/platforms/smartthings/statuses.json",
+        tlsVersion: "TLSv1.1",
+		body: [
+			appId: app.id,
+			devices: devices
+		]
+	])
+}
+
+def onDeviceStatusesSent(response, data) {
+}
+
+
+// Device Methods
+def collectDevices() {
+	def devices = [:]
+
+	// this list was generated from scraping smartthings capabilities webpage
+	videoCameras.each{d -> devices[d.getId()] = d}
+	videoCaptures.each{d -> devices[d.getId()] = d}
+
+	// this list was generated from scraping smartthings capabilities webpage
+	accelerationSensors.each{d -> devices[d.getId()] = d}
+	actuators.each{d -> devices[d.getId()] = d}
+	airConditionerModes.each{d -> devices[d.getId()] = d}
+	airQualitySensors.each{d -> devices[d.getId()] = d}
+	alarms.each{d -> devices[d.getId()] = d}
+	audioMutes.each{d -> devices[d.getId()] = d}
+	audioNotifications.each{d -> devices[d.getId()] = d}
+	audioTrackDatas.each{d -> devices[d.getId()] = d}
+	audioVolumes.each{d -> devices[d.getId()] = d}
+	batterys.each{d -> devices[d.getId()] = d}
+	beacons.each{d -> devices[d.getId()] = d}
+	bridges.each{d -> devices[d.getId()] = d}
+	bulbs.each{d -> devices[d.getId()] = d}
+	simplebuttons.each{d -> devices[d.getId()] = d}
+	carbonDioxideMeasurements.each{d -> devices[d.getId()] = d}
+	carbonMonoxideDetectors.each{d -> devices[d.getId()] = d}
+	colorControls.each{d -> devices[d.getId()] = d}
+	colorTemperatures.each{d -> devices[d.getId()] = d}
+	configurations.each{d -> devices[d.getId()] = d}
+	consumables.each{d -> devices[d.getId()] = d}
+	contactSensors.each{d -> devices[d.getId()] = d}
+	dishwasherModes.each{d -> devices[d.getId()] = d}
+	dishwasherOperatingStates.each{d -> devices[d.getId()] = d}
+	doorControls.each{d -> devices[d.getId()] = d}
+	dryerModes.each{d -> devices[d.getId()] = d}
+	dryerOperatingStates.each{d -> devices[d.getId()] = d}
+	dustSensors.each{d -> devices[d.getId()] = d}
+	energyMeters.each{d -> devices[d.getId()] = d}
+	estimatedTimeOfArrivals.each{d -> devices[d.getId()] = d}
+	executes.each{d -> devices[d.getId()] = d}
+	fanSpeeds.each{d -> devices[d.getId()] = d}
+	filterStatuss.each{d -> devices[d.getId()] = d}
+	garageDoorControls.each{d -> devices[d.getId()] = d}
+	geolocations.each{d -> devices[d.getId()] = d}
+	holdableButtons.each{d -> devices[d.getId()] = d}
+	illuminanceMeasurements.each{d -> devices[d.getId()] = d}
+	imageCaptures.each{d -> devices[d.getId()] = d}
+	indicators.each{d -> devices[d.getId()] = d}
+	infraredLevels.each{d -> devices[d.getId()] = d}
+	lights.each{d -> devices[d.getId()] = d}
+	lockOnlys.each{d -> devices[d.getId()] = d}
+	locks.each{d -> devices[d.getId()] = d}
+	mediaControllers.each{d -> devices[d.getId()] = d}
+	mediaInputSources.each{d -> devices[d.getId()] = d}
+	mediaPlaybackRepeats.each{d -> devices[d.getId()] = d}
+	mediaPlaybackShuffles.each{d -> devices[d.getId()] = d}
+	mediaPlaybacks.each{d -> devices[d.getId()] = d}
+	mediaTrackControls.each{d -> devices[d.getId()] = d}
+	momentarys.each{d -> devices[d.getId()] = d}
+	motionSensors.each{d -> devices[d.getId()] = d}
+	musicPlayers.each{d -> devices[d.getId()] = d}
+	notifications.each{d -> devices[d.getId()] = d}
+	odorSensors.each{d -> devices[d.getId()] = d}
+	outlets.each{d -> devices[d.getId()] = d}
+	ovenModes.each{d -> devices[d.getId()] = d}
+	ovenOperatingStates.each{d -> devices[d.getId()] = d}
+	ovenSetpoints.each{d -> devices[d.getId()] = d}
+	pHMeasurements.each{d -> devices[d.getId()] = d}
+	pollings.each{d -> devices[d.getId()] = d}
+	powerMeters.each{d -> devices[d.getId()] = d}
+	powerSources.each{d -> devices[d.getId()] = d}
+	presenceSensors.each{d -> devices[d.getId()] = d}
+	rapidCoolings.each{d -> devices[d.getId()] = d}
+	refreshs.each{d -> devices[d.getId()] = d}
+	refrigerationSetpoints.each{d -> devices[d.getId()] = d}
+	relativeHumidityMeasurements.each{d -> devices[d.getId()] = d}
+	relaySwitchs.each{d -> devices[d.getId()] = d}
+	robotCleanerCleaningModes.each{d -> devices[d.getId()] = d}
+	robotCleanerMovements.each{d -> devices[d.getId()] = d}
+	robotCleanerTurboModes.each{d -> devices[d.getId()] = d}
+	sensors.each{d -> devices[d.getId()] = d}
+	shockSensors.each{d -> devices[d.getId()] = d}
+	signalStrengths.each{d -> devices[d.getId()] = d}
+	sleepSensors.each{d -> devices[d.getId()] = d}
+	smokeDetectors.each{d -> devices[d.getId()] = d}
+	soundPressureLevels.each{d -> devices[d.getId()] = d}
+	soundSensors.each{d -> devices[d.getId()] = d}
+	speechRecognitions.each{d -> devices[d.getId()] = d}
+	speechSynthesiss.each{d -> devices[d.getId()] = d}
+	stepSensors.each{d -> devices[d.getId()] = d}
+	switchLevels.each{d -> devices[d.getId()] = d}
+	switchs.each{d -> devices[d.getId()] = d}
+	tamperAlerts.each{d -> devices[d.getId()] = d}
+	temperatureMeasurements.each{d -> devices[d.getId()] = d}
+	thermostatCoolingSetpoints.each{d -> devices[d.getId()] = d}
+	thermostatFanModes.each{d -> devices[d.getId()] = d}
+	thermostatHeatingSetpoints.each{d -> devices[d.getId()] = d}
+	thermostatModes.each{d -> devices[d.getId()] = d}
+	thermostatOperatingStates.each{d -> devices[d.getId()] = d}
+	thermostatSetpoints.each{d -> devices[d.getId()] = d}
+	thermostats.each{d -> devices[d.getId()] = d}
+	threeAxiss.each{d -> devices[d.getId()] = d}
+	timedSessions.each{d -> devices[d.getId()] = d}
+	tones.each{d -> devices[d.getId()] = d}
+	touchSensors.each{d -> devices[d.getId()] = d}
+	tVChannels.each{d -> devices[d.getId()] = d}
+	ultravioletIndexs.each{d -> devices[d.getId()] = d}
+	valves.each{d -> devices[d.getId()] = d}
+	videoStreams.each{d -> devices[d.getId()] = d}
+	voltageMeasurements.each{d -> devices[d.getId()] = d}
+	washerModes.each{d -> devices[d.getId()] = d}
+	washerOperatingStates.each{d -> devices[d.getId()] = d}
+	waterSensors.each{d -> devices[d.getId()] = d}
+	windowShades.each{d -> devices[d.getId()] = d}
+
+	return devices
+}
+
+
+def createAttributeList(device) {
+	def list = []
+	device.supportedAttributes.each{a ->
+		def attr = [
+			name: a.name,
+			type: a.dataType
+		]
+		if (a.dataType != "VECTOR3") {
+			if (a.dataType == "ENUM")
+				attr.put('values', a.values)
+			attr.put('value', device.currentValue(a.name))
+		} else {
+			def state = device.currentState(a.name)
+			if (state)
+				attr.put('value', state["value"])
+		}
+		list << attr
+	}
+	return list
+}
+
+def createCommandList(device) {
+	def list = []
+	device.supportedCommands.each{command ->
+		list << command.name
+	}
+	return list
+}
+
+def createCapabilityList(device) {
+	def list = []
+	device.capabilities.each {c ->
+		def cap = [
+			name: c.name,
+			attributes: createCapabilityAttributeList(device, c),
+			commands: createCapabilityCommandList(device, c)
+		]
+		list << cap
+	}
+	return list
+}
+
+def createCapabilityAttributeList(device, capability) {
+	def list = []
+	capability.attributes.each {a ->
+		def attr = [
+			name: a.name,
+			type: a.dataType
+		]
+		if (a.dataType != "VECTOR3") {
+			if (a.dataType == "ENUM")
+				attr.put('values', a.values)
+			attr.put('value', device.currentValue(a.name))
+		} else {
+			def state = device.currentState(a.name)
+			if (state)
+				attr.put('value', state["value"])
+		}
+		list << attr
+	}
+	return list
+}
+
+def createCapabilityCommandList(device, capability) {
+	def list = []
+	capability.commands.each {c ->
+		def command = [
+			name: c.name,
+			arguments: c.arguments
+		]
+		list << command
+	}
+	return list
+}
+
+def getRawDevice(id) {
+	def device = collectDevices().find{ it.key == id }?.value
+	if (device)
+		return device
+
+	return nil
+}
+
+
+
+// API Endpoints
+def getSummary() {
+	return [
+		app: [
+			id: app.id,
+			accountId: app.accountId,
+			installation: app.installationState,
+			label: app.label,
+			name: app.name,
+			temperatureScale: app.getLocation().temperatureScale
+		],
+		devices: getDevices()
+	]
+}
+
+def getDevices() {
+	def devices = []
+	collectDevices().each{id, device ->
+		def item = [
+			id: device.id,
+			name: device.name,
+			displayName: device.displayName,
+			typeName: device.typeName,
+			status: device.status,
+			lastActivity: device.lastActivity ? Math.round(device.lastActivity.getTime() / 1000) : null,
+			capabilities: createCapabilityList(device),
+			commands: createCommandList(device),
+			attributes: createAttributeList(device)
+		]
+		devices << item
+	}
+	return devices
+}
+
+def getDevice() {
+	def id = params.id
+	def found = false
+
+	getDevices().each{device ->
+		if (device.id == id) {
+			found = device
+		}
+	}
+
+	if (!found) {
+		httpError(404, "Could not find device: ${id}")
+	}
+
+	return found
+}
+
+def commandDevice() {
+	def device = getRawDevice(params.id)
+
+	if (!device) {
+		httpError(404, "Could not find device: ${params.id}")
+		return
+	}
+
+	def command = request.JSON.command
+	def commands = createCommandList(device)
+	def commandResponse
+	def args = request.JSON?.args
+	def message
+	def result = "unknown"
+
+	if (commands.contains(command)) {
+		if (args) {
+			// http://docs.groovy-lang.org/next/html/documentation/core-operators.html#_spreading_method_arguments
+			// * spread operator: you can call the method without having to define intermediate variables
+			commandResponse = device."${command}"(*args)
+			message = "Calling command '${command}(${args.join(',')})' on device '${device.name}'"
+		} else {
+			commandResponse = device."${command}"()
+			message = "Calling command '${command}()' on device '${device.name}'"
+		}
+
+		result = "success"
+	} else {
+		message = "Device '${device.name}' does not have the command '${command}'"
+		result = "error"
+	}
+
+	return [
+		result: result,
+		response: commandResponse,
+		message: message,
+		unixMs: now(),
+		temperatureScale: app.getLocation().temperatureScale,
+		capabilities: createCapabilityList(device)
+	]
+}
