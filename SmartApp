@@ -164,7 +164,7 @@ mappings {
 // "Due to the sandboxed nature of SmartApp and Device Handler execution, defining global constant variables will not work"
 // "Instead, for any global constants you’d like in your SmartApp or Device Handler, define a no-op getter method that returns the value"
 def getRulesEndpointURL() {
-	return "https://dev-api.ruleiot.com"
+	return "https://prod-api.ruleiot.com"
 }
 
 def installed() {
