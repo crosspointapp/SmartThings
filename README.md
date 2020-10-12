@@ -19,7 +19,10 @@ Connecting SmartThings to CrossPoint
 1. Login to the CrossPoint App.
 2. Goto the CrossPoints menu.
 3. Click on the SmartThings connecting button, type in your Client ID and Secret and click the connection button.
-4. You should see your devices in the Devices menu and now you can use CrossPoint to control your SmartThings devices.
+4. This should take you to the SmartThings login screen. Login again to the Samsung site.
+5. Click on your hub name and select the devices that you want to authorize.
+6. Click on the Authorize button.
+7. You should see your devices in the Devices menu and now you can use CrossPoint to control your SmartThings devices.
 
 
 
