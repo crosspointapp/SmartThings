@@ -363,6 +363,7 @@ def handleEvent(e) {
 }
 
 def onEventResponse(response, data) {
+sendDeviceStatuses()
 }
 
 // Sends a map of all devices with their current status
