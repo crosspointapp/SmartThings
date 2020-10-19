@@ -1,8 +1,8 @@
 /**
- *	CrossPoint
+ *	Rule IoT
  *
- *	Copyright 2018 RuleIoT
- *	https://crosspointapp.com
+ *	Copyright 2018-2020 RuleIoT
+ *	https://ruleiot.com
  *
  *	Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *	in compliance with the License. You may obtain a copy of the License at:
@@ -17,18 +17,18 @@
 include "asynchttp_v1"
 
 definition(
-	name: "CrossPoint",
-	namespace: "SmartThings Groovy",
-	author: "CrossPoint",
-	description: "CrossPoint is a new IoT service that allows users to detect complex changes in their IoT devices and to send commands and notifications as a result.",
+	name: "Rule IoT",
+	namespace: "riot",
+	author: "RuleIoT",
+	description: "Rule IoT is a new IoT service that allows users to detect complex changes in their IoT devices and to send commands and notifications as a result.",
 	category: "Convenience",
-	iconUrl: "https://crosspointapp.com/logo.svg",
-	iconX2Url: "https://crosspointapp.com/logo.svg",
-	iconX3Url: "https://crosspointapp.com/logo.svg")
+	iconUrl: "https://ruleiot.com/logo.svg",
+	iconX2Url: "https://ruleiot.com/logo.svg",
+	iconX3Url: "https://ruleiot.com/logo.svg")
 
 
 preferences {
-	section("Select Devices for use by CrossPoint") {
+	section("Select Devices for use by RuleIoT") {
 		// this set was found by testing devices we have
 		input("videoCameras", "capability.videoCamera", required: false, multiple: true, title: "Video Cameras")
 		input("videoCaptures", "capability.videoCapture", required: false, multiple: true, title: "Video Capture Devices")
@@ -163,7 +163,7 @@ mappings {
 // According to SmartApp Groovy Documentation
 // "Due to the sandboxed nature of SmartApp and Device Handler execution, defining global constant variables will not work"
 // "Instead, for any global constants you’d like in your SmartApp or Device Handler, define a no-op getter method that returns the value"
-def getRulesEndpointURL() {
+def getCrosspointURL() {
 	return "https://prod-api.ruleiot.com"
 }
 
@@ -329,7 +329,7 @@ def initialize() {
 	subscribe(windowShades, "windowShade", handleEvent)
 
 	asynchttp_v1.post(onEventResponse, [
-		uri: getRulesEndpointURL(),
+		uri: getCrosspointURL(),
 		path: "/v1/platforms/smartthings/devices.json",
         tlsVersion: "TLSv1.1",
 		body: [
@@ -346,7 +346,7 @@ def handleEvent(e) {
 	if (e.name && e.value) {
 		log.debug "Received event: ${e}"
 		asynchttp_v1.post(onEventResponse, [
-			uri: getRulesEndpointURL(),
+			uri: getCrosspointURL(),
 			path: "/v1/platforms/smartthings/events/${e.deviceId}.json",
         	tlsVersion: "TLSv1.1",
 			body: [
@@ -363,7 +363,6 @@ def handleEvent(e) {
 }
 
 def onEventResponse(response, data) {
-sendDeviceStatuses()
 }
 
 // Sends a map of all devices with their current status
@@ -387,7 +386,7 @@ def sendDeviceStatuses() {
         ]
 	}
 	asynchttp_v1.post(onDeviceStatusesSent, [
-		uri: getRulesEndpointURL(),
+		uri: getCrosspointURL(),
 		path: "/v1/platforms/smartthings/statuses.json",
         tlsVersion: "TLSv1.1",
 		body: [
@@ -399,7 +398,6 @@ def sendDeviceStatuses() {
 
 def onDeviceStatusesSent(response, data) {
 }
-
 
 // Device Methods
 def collectDevices() {
@@ -518,7 +516,6 @@ def collectDevices() {
 	return devices
 }
 
-
 def createAttributeList(device) {
 	def list = []
 	device.supportedAttributes.each{a ->
@@ -602,9 +599,9 @@ def getRawDevice(id) {
 	return nil
 }
 
-
-
+//--------------
 // API Endpoints
+
 def getSummary() {
 	return [
 		app: [
