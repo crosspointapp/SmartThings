@@ -3,7 +3,7 @@ SmartThings Groovy Code for CrossPoint
 
 Getting SmartThings Ready to Connect to CrossPoint
 
-1. Login to (https://account.smartthings.com/). Use the "Sign in with Samsung" Account link.
+1. Login to (https://account.smartthings.com/). Use the "Sign in with Samsung" Account link. Users in the EU need to use this link (https://graph-eu01-euwest1.api.smartthings.com/).
 2. Goto My Locations and click on your location. Sometimes the site will not automatically select your location without doing this step.
 3. After selecting your location goto the My SmartApps menu.
 4. Click the New SmartApp button at the top right.
