@@ -12,12 +12,12 @@ Getting SmartThings Ready to Connect to CrossPoint
 7. Click on the App Settings button at the top right.
 8. Click the OAuth menu and enable OAuth.
 9. Add this URL into the Redirect URI (https://prod.ruleiot.com/verify/smartthings) and click the update button.
-10. After you click update you should see the Client ID and Client Secret. These numbers will be needed to connect to the CrossPoint app. Please save them and open CrossPoint on mobile phone.
+10. After you click update you should see the Client ID and Client Secret. These numbers will be needed to connect to the CrossPoint app. Please save them and open CrossPoint on your mobile phone.
 
 Connecting SmartThings to CrossPoint
 
 1. Login to the CrossPoint App.
-2. Goto the CrossPoints menu.
+2. Go to the CrossPoints menu.
 3. Click on the SmartThings connecting button, type in your Client ID and Secret and click the connection button.
 4. This should take you to the SmartThings login screen. Login again to the Samsung site.
 5. Click on your hub name and select the devices that you want to authorize.
