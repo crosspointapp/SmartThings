@@ -12,7 +12,7 @@ Getting SmartThings Ready to Connect to CrossPoint
 7. Click on the App Settings button at the top right.
 8. Click the OAuth menu and enable OAuth.
 9. Add this URL into the Redirect URI (https://prod.ruleiot.com/verify/smartthings) and click the update button.
-10. After you click update you should see the Client ID and Client Secret. These numbers will be added to connect to the CrossPoint app. Please save them and open CrossPoint.
+10. After you click update you should see the Client ID and Client Secret. These numbers will be needed to connect to the CrossPoint app. Please save them and open CrossPoint on iOS.
 
 Connecting SmartThings to CrossPoint
 
