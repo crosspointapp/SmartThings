@@ -9,11 +9,10 @@ Getting SmartThings Ready to Connect to CrossPoint
 4. Click the New SmartApp button at the top right.
 5. A New SmartApp configuration page will show, and have the "From Form" tab selected. Select the "From Code" tab instead.
 6. Go to the below code repository for the CrossPoint smart app code. Copy and paste the source code into the "From Code" tab on the samsung site, and Create the Smart App. https://github.com/crosspointapp/SmartThings/blob/main/SmartApp.
-7. After you paste the code into the box click on the Create button at the buttom left.
-8. Click on the App Settings button at the top right.
-9. Click the OAuth menu and enable OAuth.
-10. Add this URL into the Redirect URI (https://prod.ruleiot.com/verify/smartthings) and click the update button.
-11. After you click update you should see the Client ID and Client Secret. These numbers will be needed to connect to the CrossPoint app. Please save them and open CrossPoint on your mobile phone.
+7. Click on the App Settings button at the top right.
+8. Click the OAuth menu and enable OAuth.
+9. Add this URL into the Redirect URI (https://prod.ruleiot.com/verify/smartthings) and click the update button.
+10. After you click update you should see the Client ID and Client Secret. These numbers will be needed to connect to the CrossPoint app. Please save them and open CrossPoint on your mobile phone.
 
 Connecting SmartThings to CrossPoint
 
